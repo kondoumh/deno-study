@@ -1,18 +1,25 @@
 import "./imported.ts";
 
 const handler = (e: Event): void => {
-  console.log(`got　${e.type} event in event handler (main)`);
+  console.log(`got ${e.type} event in event handler (main)`);
 }
 
-window.addEventListener("load", handler);
-window.addEventListener("unload", handler);
+globalThis.addEventListener("load", handler);
 
-window.onload = (e: Event): void => {
+globalThis.addEventListener("beforeunload", handler);
+
+globalThis.addEventListener("unload", handler);
+
+globalThis.onload = (e: Event): void => {
   console.log(`got ${e.type} event in onload function (main)`);
-}
+};
 
-window.onunload = (e: Event): void => {
+globalThis.onbeforeunload = (e: Event): void => {
+  console.log(`got ${e.type} event in onbeforeunload function (main)`);
+};
+
+globalThis.onunload = (e: Event): void => {
   console.log(`log ${e.type} event in onunload function (main)`);
-}
+};
 
 console.log("log from main script");
