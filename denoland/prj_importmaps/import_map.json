@@ -1,5 +1,7 @@
 {
   "imports": {
-    "fmt/": "https://deno.land/std@0.156.0/fmt/"
+    "fmt/": "https://deno.land/std@0.156.0/fmt/",
+    "lodash": "https://cdn.skypack.dev/lodash",
+    "add": "./add.ts"
   }
 }
