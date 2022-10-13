@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "jsdom": "https://esm.sh/jsdom",
+    "serve": "https://deno.land/std@0.140.0/http/server.ts"
+  }
+}
