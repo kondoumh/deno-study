@@ -1,25 +1,23 @@
-import {serve} from "https://deno.land/std@0.140.0/http/server.ts";
+import {serve} from "https://deno.land/std@0.160.0/http/server.ts";
 import { DOMParser } from "https://esm.sh/linkedom";
 
 function handler(_req: Request): Response {
   const document = new DOMParser().parseFromString(
     `<!DOCTYPE html>
-    <html lang="en">
+     <html>
       <head>
-        <title>Hello from Deno</title>
+        <title>Current time</title>
       </head>
       <body>
-        <h1>Hello from Deno</h1>
-        <form>
-          <input name="user">
-          <button>
-            Submit
-          </button>
-        </form>
+        <h1>Current time</h1>
+        <p>placeholder</p>
       </body>
     </html>`,
     "text/html",
   );
+
+  const p = document.querySelector("p");
+  p.innerHTML = new Date().toLocaleString();
   return new Response(document, {
     headers: { "content-type": "text/html; charset=utf-8" },
   });
