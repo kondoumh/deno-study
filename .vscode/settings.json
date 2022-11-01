@@ -6,5 +6,11 @@
     "https://x.nest.land": true,
     "https://crux.land": true
   },
-  "workbench.colorTheme": "Solarized Dark"
+  "workbench.colorTheme": "Solarized Dark",
+  "deno.inlayHints.enumMemberValues.enabled": true,
+  "deno.inlayHints.functionLikeReturnTypes.enabled": true,
+  "deno.inlayHints.parameterNames.enabled": "all",
+  "deno.inlayHints.parameterTypes.enabled": true,
+  "deno.inlayHints.propertyDeclarationTypes.enabled": true,
+  "deno.inlayHints.variableTypes.enabled": true
 }
