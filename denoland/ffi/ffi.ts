@@ -18,7 +18,7 @@ const libName = `./libadd.${libSuffix}`;
 const dylib = Deno.dlopen(
   libName,
   {
-    "add": { parameters: ["isize", "isize"], result: "isize" },
+    "add": { parameters: ["i32", "i32"], result: "i32" },
   } as const,
 );
 
