@@ -12,5 +12,18 @@
   "deno.inlayHints.parameterNames.enabled": "all",
   "deno.inlayHints.parameterTypes.enabled": true,
   "deno.inlayHints.propertyDeclarationTypes.enabled": true,
-  "deno.inlayHints.variableTypes.enabled": true
+  "deno.inlayHints.variableTypes.enabled": true,
+  "javascript.inlayHints.enumMemberValues.enabled": true,
+  "editor.inlayHints.enabled": "on",
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "javascript.inlayHints.parameterNames.enabled": "all",
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "editor.inlayHints.padding": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.inlayHints.parameterNames.enabled": "all"
 }
