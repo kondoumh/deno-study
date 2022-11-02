@@ -1,10 +1,11 @@
 // deno run add_signal_listener.ts
 
-console.log("Precc Ctrl-C to trigger a SIGINT signal");
+const pid = Deno.pid;
+console.log(`Run 'kill ${pid}' to terminate.`);
 
-Deno.addSignalListener("SIGINT", () => {
-  console.log("interrupted!");
+Deno.addSignalListener("SIGTERM", () => {
+  console.log("Terminating...");
   Deno.exit();
 });
 
-setTimeout(() => {}, 5000);
+setTimeout(() => {}, 50000);
