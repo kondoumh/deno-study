@@ -7,7 +7,7 @@ const importObject = {
 };
 
 self.onmessage = async (e) => {
-  console.log("module received from main thread");
+  console.log(self.name, "module received from main thread");
   const { module } = e.data;
   const instance = await WebAssembly.instantiate(module, importObject);
   instance.exports.exported_func();
