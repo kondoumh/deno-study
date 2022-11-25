@@ -1,5 +1,5 @@
-import { serve } from "https://deno.land/std@0.165.0/http/server.ts";
-import { serveFile } from "https://deno.land/std@0.165.0/http/file_server.ts";
+import { serve } from "server";
+import { serveFile } from "file_server";
 
 async function handleRequest(request: Request): Promise<Response> {
   const { pathname } = new URL(request.url);
