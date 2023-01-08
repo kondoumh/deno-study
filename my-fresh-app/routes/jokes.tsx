@@ -1,7 +1,5 @@
 // routes/jokes.tsx
 
-/** @jsx h */
-import { h } from "preact";
 import { Handlers } from "$fresh/server.ts";
 
 export const handler: Handlers = {
