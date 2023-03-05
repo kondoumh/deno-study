@@ -17,9 +17,9 @@ const rawOutput = await p.output();
 const rawError = await p.stderrOutput();
 
 if (code === 0) {
-  await Deno.stdout.write(rawOutput);
+  console.info(new TextDecoder().decode(rawOutput));
 } else {
-  await Deno.stderr.write(rawError);
+  console.error(new TextDecoder().decode(rawError));
 }
 
 Deno.exit(code);
