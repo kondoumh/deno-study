@@ -1,6 +1,6 @@
-import { crayon } from "https://deno.land/x/crayon@3.3.2/mod.ts";
-import { Canvas, Tui,  handleInput, handleKeyboardControls, handleMouseControls, Signal, Computed } from "https://deno.land/x/tui@2.0.0/mod.ts";
-import { Button } from "https://deno.land/x/tui@2.0.0/src/components/mod.ts";
+import { crayon } from "https://deno.land/x/crayon@3.3.3/mod.ts";
+import { Canvas, Tui,  handleInput, handleKeyboardControls, handleMouseControls, Signal, Computed } from "https://deno.land/x/tui@2.1.4/mod.ts";
+import { Button } from "https://deno.land/x/tui@2.1.4/src/components/mod.ts";
 
 const tui = new Tui({
   style: crayon.bgBlack, // Make background black
