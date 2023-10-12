@@ -14,7 +14,7 @@ function isNotification(o : unknown): o is Notification {
      );
 }
 
-const db = await Deno.openKv();
+const db = await Deno.openKv("db");
 
 db.listenQueue((msg) => {
   if (!isNotification(msg)) {
@@ -27,10 +27,3 @@ db.listenQueue((msg) => {
     console.log("sending sms to ", msg.to, msg.body);
   }
 });
-
-const message1: Notification = { type: "email", to: "Alice", body: "Hello, Alice!" };
-const message2: Notification = { type: "sms", to: "Bob", body: "Hi, Bob!" };
-
-await db.enqueue(message1, { delay: 1000 });
-await db.enqueue(message2, { delay: 2000 });
-
