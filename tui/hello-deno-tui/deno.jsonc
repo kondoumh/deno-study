@@ -2,6 +2,7 @@
   "tasks": {
     "dev": "deno run --watch main.ts",
     "calc": "deno run calculator.ts",
-    "demo": "deno run demo.ts"
+    "demo": "deno run demo.ts",
+    "layout": "deno run layout.ts"
   }
 }
