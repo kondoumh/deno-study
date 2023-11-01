@@ -1,5 +1,5 @@
 import { crayon } from "https://deno.land/x/crayon@3.3.3/mod.ts";
-import { Canvas, Tui,  handleInput, handleKeyboardControls, handleMouseControls, Signal, Computed } from "https://deno.land/x/tui@2.1.4/mod.ts";
+import { Tui,  handleInput, handleKeyboardControls, handleMouseControls, Signal, Computed } from "https://deno.land/x/tui@2.1.4/mod.ts";
 import { Button } from "https://deno.land/x/tui@2.1.4/src/components/mod.ts";
 
 const tui = new Tui({
@@ -10,6 +10,9 @@ const tui = new Tui({
 handleInput(tui);
 handleMouseControls(tui);
 handleKeyboardControls(tui);
+
+tui.dispatch(); // Close Tui on CTRL+C
+tui.run();
 
 const number = new Signal(0);
 
@@ -50,6 +53,3 @@ button.on("mousePress", ({ drag, movementX, movementY }) => {
   rectangle.column += movementX;
   rectangle.row += movementY;
 });
-
-tui.dispatch(); // Close Tui on CTRL+C
-tui.run();
