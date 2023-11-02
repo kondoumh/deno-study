@@ -13,8 +13,6 @@ handleKeyboardControls(tui);
 tui.dispatch();
 tui.run();
 
-const data = new Signal<string[][]>([]);
-
 const rows = [
   ["0", "foo"],
   ["1", "bar"],
@@ -22,9 +20,8 @@ const rows = [
   ["3", "qux"],
   ["4", "quux"],
   ["5", "corge"],
+  ["6", "grault aaaaaaaaaaaaaaaaaaaaaaa"],
 ];
-
-data.value = rows;
 
 const button = new Button({
   parent: tui,
@@ -40,40 +37,56 @@ const button = new Button({
   rectangle: {
     column: 1,
     row: 1,
-    height: 3,
+    height: 1,
     width: 10,
   },
 });
 
-const table = new Table({
-  parent: tui,
-  theme: {
-    base: crayon.bgBlack.white,
-    frame: { base: crayon.bgBlack },
-    header: { base: crayon.bgBlack.bold.lightBlue },
-    selectedRow: {
-      base: crayon.bold.bgBlue.white,
-      focused: crayon.bold.bgLightBlue.white,
-      active: crayon.bold.bgMagenta.black,
+const selected = new Signal(0);
+
+let table: Table;
+
+function createTable(data: string[][]) {
+  if (table) {
+    table.data.value = data;
+    table.rectangle.value.height = data.length + 3 < 10 ? data.length + 3 : 10;
+    return;
+  }
+  table = new Table({
+    parent: tui,
+    theme: {
+      base: crayon.bgBlack.white,
+      frame: { base: crayon.bgBlack },
+      header: { base: crayon.bgBlack.bold.lightBlue },
+      selectedRow: {
+        base: crayon.bold.bgBlue.white,
+        focused: crayon.bold.bgLightBlue.white,
+        active: crayon.bold.bgMagenta.black,
+      },
     },
-  },
-  rectangle: {
-    column: 2,
-    row: 7,
-    height: 10,
-  },
-  headers: [
-    { title: "ID", width: 500 },
-    { title: "Name", width: 10 },
-  ],
-  data: data.value,
-  charMap: "rounded",
-  zIndex: 0,
-});
+    rectangle: {
+      column: 1,
+      row: 4,
+      height: data.length + 3 < 10 ? data.length + 3 : 10,
+    },
+    headers: [
+      { title: "ID", width: 500 },
+      { title: "Name", width: 10 },
+    ],
+    data: data,
+    charMap: "rounded",
+    zIndex: 0,
+  });
+  table.state.subscribe((state) => {
+    if (state == "active") {
+      selected.value = table.selectedRow.value;
+    }
+  });
+}
 
-const size = new Signal(data.value.length);
+const size = new Signal(rows.length);
 
-const label = new Label({
+new Label({
   parent: tui,
   text: new Computed(() => "items: " + size.value.toString()),
   align: {
@@ -85,15 +98,31 @@ const label = new Label({
   },
   rectangle: {
     column: 1,
-    row: 5,
+    row: 3,
   },
   zIndex: 0,
  });
 
- button.state.subscribe((state) => {
+new Label({
+  parent: tui,
+  text: new Computed(() => "selected: " + selected.value.toString()),
+  align: {
+    horizontal: "center",
+    vertical: "center",
+  },
+  theme: {
+    base: crayon.magenta,
+  },
+  rectangle: {
+    column: 1,
+    row: 14,
+  },
+  zIndex: 0,
+ });
+
+button.state.subscribe((state) => {
   if (state == "active") {
-    const id = data.value.length.toString();
-    const length = data.value.push([id, "item of table " + id]);
-    size.value = length;
+    createTable(rows);
   }
 });
+
