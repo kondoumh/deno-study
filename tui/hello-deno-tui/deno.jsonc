@@ -4,6 +4,6 @@
     "calc": "deno run calculator.ts",
     "demo": "deno run demo.ts",
     "layout": "deno run layout.ts",
-    "docker": "deno run --watch docker.ts"
+    "table": "deno run --watch table.ts"
   }
 }
