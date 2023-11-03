@@ -1,3 +1,4 @@
+// deno run --allow-run kube.ts
 import { crayon } from "https://deno.land/x/crayon@3.3.3/mod.ts";
 import { Tui, handleInput, handleKeyboardControls, handleMouseControls, Signal, Computed} from "https://deno.land/x/tui@2.1.4/mod.ts"
 import { Button, Label, Table } from "https://deno.land/x/tui@2.1.4/src/components/mod.ts";
@@ -84,8 +85,6 @@ function createTable(data: string[][]) {
       { title: "NAME" },
       { title: "READY" },
       { title: "STATUS" },
-      { title: "RESTARTS" },
-      { title: "AGE" },
     ],
     data: data,
     charMap: "rounded",
@@ -98,7 +97,7 @@ function createTable(data: string[][]) {
   });
 }
 
-async function kubeOutput() {
+async function kubeOutput(): Promise<string[][]> {
   const { code, stdout, stderr } = await new Deno.Command(
     "kubectl", {args: ["get", "pods", "-A"]}
   ).output();
@@ -109,7 +108,7 @@ async function kubeOutput() {
   } else {
     const lines = new TextDecoder().decode(stdout).split("\n");
     lines.shift(); // remove header
-    rows = lines.map((line) => line.split(/\s+/)).filter((row) => row.length > 5);
+    rows = lines.map((line) => line.split(/\s+/).slice(0, 4)).filter(row => row.length > 3);
   }
   return rows;
 } 
