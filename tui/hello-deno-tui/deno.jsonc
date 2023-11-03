@@ -4,6 +4,7 @@
     "calc": "deno run calculator.ts",
     "demo": "deno run demo.ts",
     "layout": "deno run layout.ts",
-    "table": "deno run table.ts"
+    "table": "deno run table.ts",
+    "kube": "deno run --allow-run kube.ts"
   }
 }
