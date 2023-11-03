@@ -15,5 +15,6 @@ if (code !== 0) {
 
 function toArray(stdout: Uint8Array) : string[][] {
   const lines = new TextDecoder().decode(stdout).split("\n");
+  lines.shift();
   return lines.map((line) => line.split(/\s+/)).filter((row) => row.length > 5);
 }
