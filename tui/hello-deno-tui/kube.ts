@@ -13,9 +13,7 @@ handleKeyboardControls(tui);
 tui.dispatch();
 tui.run();
 
-const rows = await kubeOutput();
-
-const button = new Button({
+new Button({
   parent: tui,
   zIndex: 0,
   label: {
@@ -32,16 +30,36 @@ const button = new Button({
     height: 1,
     width: 10,
   },
+}).state.subscribe(async (state) => {
+  if (state == "active") {
+    const rows = await kubeOutput();
+    createTable(rows);
+  }
 });
 
 const selected = new Signal(0);
+
+new Label({
+  parent: tui,
+  text: new Computed(() => "selected: " + selected.value.toString()),
+  align: {
+    horizontal: "center",
+    vertical: "center",
+  },
+  theme: {
+    base: crayon.magenta,
+  },
+  rectangle: {
+    column: 1,
+    row: 3,
+  },
+  zIndex: 0,
+ });
 
 let table: Table;
 
 function createTable(data: string[][]) {
   if (table) {
-    table.data.value = data;
-    table.rectangle.value.height = data.length + 3 < 10 ? data.length + 3 : 10;
     return;
   }
   table = new Table({
@@ -80,60 +98,17 @@ function createTable(data: string[][]) {
   });
 }
 
-const size = new Signal(rows.length);
-
-new Label({
-  parent: tui,
-  text: new Computed(() => "items: " + size.value.toString()),
-  align: {
-    horizontal: "center",
-    vertical: "center",
-  },
-  theme: {
-    base: crayon.magenta,
-  },
-  rectangle: {
-    column: 1,
-    row: 3,
-  },
-  zIndex: 0,
- });
-
-new Label({
-  parent: tui,
-  text: new Computed(() => "selected: " + selected.value.toString()),
-  align: {
-    horizontal: "center",
-    vertical: "center",
-  },
-  theme: {
-    base: crayon.magenta,
-  },
-  rectangle: {
-    column: 1,
-    row: 14,
-  },
-  zIndex: 0,
- });
-
-button.state.subscribe((state) => {
-  if (state == "active") {
-    createTable(rows);
-  }
-});
-
-async function kubeOutput(): Promise<string[][]> {
+async function kubeOutput() {
   const { code, stdout, stderr } = await new Deno.Command(
     "kubectl", {args: ["get", "pods", "-A"]}
   ).output();
 
   let rows: string[][] = [];
-  
   if (code !== 0) {
     console.error(new TextDecoder().decode(stderr));
   } else {
     const lines = new TextDecoder().decode(stdout).split("\n");
-    lines.shift();
+    lines.shift(); // remove header
     rows = lines.map((line) => line.split(/\s+/)).filter((row) => row.length > 5);
   }
   return rows;
