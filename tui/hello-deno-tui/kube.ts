@@ -108,7 +108,7 @@ async function kubeOutput(): Promise<string[][]> {
   } else {
     const lines = new TextDecoder().decode(stdout).split("\n");
     lines.shift(); // remove header
-    rows = lines.map((line) => line.split(/\s+/).slice(0, 4)).filter(row => row.length > 3);
+    rows = lines.map(line => line.split(/\s+/).slice(0, 4)).filter(row => row.length > 3);
   }
   return rows;
 } 
