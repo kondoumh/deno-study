@@ -1,0 +1,8 @@
+{
+  "tasks": {
+    "dev": "deno run --watch main.ts"
+  },
+  "imports": {
+    "@luca/cases": "jsr:@luca/cases@^1.0.0"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "version": "3",
+  "packages": {
+    "specifiers": {
+      "jsr:@luca/cases": "jsr:@luca/cases@1.0.0",
+      "jsr:@luca/cases@^1.0.0": "jsr:@luca/cases@1.0.0"
+    },
+    "jsr": {
+      "@luca/cases@1.0.0": {
+        "integrity": "b5f9471f1830595e63a2b7d62821ac822a19e16899e6584799be63f17a1fbc30"
+      }
+    }
+  },
+  "remote": {},
+  "workspace": {
+    "dependencies": [
+      "jsr:@luca/cases@^1.0.0"
+    ]
+  }
+}
