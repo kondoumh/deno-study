@@ -26,5 +26,5 @@ OTEL_DENO=true OTEL_SERVICE_NAME=svc-b deno run --unstable-otel --allow-net serv
 call front API
 
 ```shell
-curl --dump-header - http://localhost:8002
+curl --dump-header - http://localhost:3001
 ```
