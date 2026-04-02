@@ -33,4 +33,3 @@ const message2: Notification = { type: "sms", to: "Bob", body: "Hi, Bob!" };
 
 await db.enqueue(message1, { delay: 1000 });
 await db.enqueue(message2, { delay: 2000 });
-
