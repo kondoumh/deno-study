@@ -1,49 +1,115 @@
-// Deno.serve(() =>
-//   new Response(
-//     "<!DOCTYPE html><h1>Hello from Deno desktop </h1>",
-//     { headers: { "content-type": "text/html" } },
-//   )
-// );
-
-// ① 1回目の呼び出し：
-// Deno Desktopが自動で作る最初のウィンドウを乗っ取って、タイトルなどを設定します。
 const win = new Deno.BrowserWindow({ 
-  title: "僕の初めてのDenoデスクトップアプリ", 
+  title: "My Deno Desktop App", 
   width: 800, 
   height: 600,
 });
 
 win.openDevtools();
 
-// ② Webサーバーの処理（Hello World）
 Deno.serve((req) => {
   const url = new URL(req.url);
-
-  // （おまけ）もし別ウィンドウ用のパスにアクセスされたら返す内容
-  // if (url.pathname === "/settings") {
-  //   return new Response("<h1>Settings</h1>", {
-  //     headers: { "content-type": "text/html" },
-  //   });
-  // }
-
-  // メイン画面
-  console.log("Hello World!");
   return new Response("<h1>Hello, Deno Desktop!</h1>", {
     headers: { "content-type": "text/html" },
   });
 });
 
+win.setApplicationMenu([
+  {
+    submenu: {
+      label: "File",
+      items: [
+        {
+          item: {
+            label: "New",
+            id: "new",
+            accelerator: "CmdOrCtrl+N",
+            enabled: true,
+          },
+        },
+        {
+          item: {
+            label: "Open…",
+            id: "open",
+            accelerator: "CmdOrCtrl+O",
+            enabled: true,
+          },
+        },
+        "separator",
+        {
+          item: {
+            label: "Save",
+            id: "save",
+            accelerator: "CmdOrCtrl+S",
+            enabled: true,
+          },
+        },
+        { role: { role: "quit" } },
+      ],
+    },
+  },
+  {
+    submenu: {
+      label: "Edit",
+      items: [
+        { role: { role: "undo" } },
+        { role: { role: "redo" } },
+        "separator",
+        { role: { role: "cut" } },
+        { role: { role: "copy" } },
+        { role: { role: "paste" } },
+      ],
+    },
+  },
+]);
 
-// ③ 2回目の呼び出し（別ウィンドウを開きたい場合）：
-// 自動でポートが割り当てられるため、そのポートを取得して新しいウィンドウで開きます。
+win.addEventListener("menuclick", (e) => {
+  const detail = (e as CustomEvent).detail;
+  switch (detail.id) {
+    case "new":
+      console.log("New clicked");
+      break;
+    case "open":
+      console.log("Open clicked");
+      break;
+    case "save":
+      console.log("Save clicked");
+      break;
+  }
+});
 
-// const base = Deno.env.get("DENO_SERVE_ADDRESS")!; // 例: "tcp:127.0.0.1:8000"
-// const port = base.split(":").pop();
+const contextMenu: Deno.MenuItem[] = [
+  { item: { label: "Copy", id: "copy", enabled: true } },
+  { item: { label: "Paste", id: "paste", enabled: true } },
+  "separator",
+  { item: { label: "Properties…", id: "props", enabled: true } },
+];
 
-// const settingsWin = new Deno.BrowserWindow({
-//   title: "設定",
-//   width: 420,
-//   height: 320,
+// Trigger from a right-click. The webview may not forward the browser
+// `contextmenu` event, so handle the secondary mouse button on the window.
+win.addEventListener("mousedown", (e) => {
+  if (e.button === 2) {
+    win.showContextMenu(e.clientX, e.clientY, contextMenu);
+  }
+});
+
+win.addEventListener("contextmenuclick", (e) => {
+  if (e.detail.id === "copy") { console.log("Copy clicked"); }
+  if (e.detail.id === "paste") { console.log("Paste clicked"); }
+  if (e.detail.id === "props") { console.log("Properties clicked"); }
+});
+
+// using tray = new Deno.Tray();
+// const iconPath = new URL("./icons/tray.png", import.meta.url).pathname;
+// const icon = await Deno.readFile(iconPath);
+// tray.setIcon(icon);
+// tray.setTooltip("My App");
+
+// tray.setMenu([
+//   { item: { label: "Open", id: "open", enabled: true } },
+//   { item: { label: "Quit", id: "quit", enabled: true } },
+// ]);
+
+// tray.addEventListener("menuclick", (e) => {
+//   if (e.detail.id === "open") win.show();
+//   if (e.detail.id === "quit") Deno.exit(0);
 // });
-// // 設定用のURLへアクセスさせる
-// settingsWin.navigate(`http://127.0.0.1:${port}/settings`);

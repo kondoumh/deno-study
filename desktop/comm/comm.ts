@@ -6,9 +6,6 @@ const win = new Deno.BrowserWindow({
   height: 600,
 });
 
-// デバッグ用にDevToolsを開く（CEFモードの場合）
-win.openDevtools();
-
 // ==========================================
 // 1. バックエンド側：フロントから呼ばれる関数を登録
 // ==========================================
@@ -48,18 +45,18 @@ Deno.serve(() => {
 
       <script>
         // ボタンが押された時の処理
-        document.getElementById('btn').addEventListener('click', async () => {
+        document.querySelector('#btn').addEventListener('click', async () => {
           const resultArea = document.getElementById('result');
           resultArea.textContent = "取得中...";
 
           try {
-            // 💡 ここが魔法！ preload.js なしでDeno側の関数が直接呼べる！
-            const data = await bindings.getSystemInfo("Deno太郎");
+            // 💡 bindings を使ってバックエンドの関数を呼び出す
+            const data = await bindings.getSystemInfo("kondoumh");
             
             // 結果を画面に表示
             resultArea.textContent = JSON.stringify(data, null, 2);
           } catch (error) {
-            resultArea.textContent = "エラー: " + error.message;
+            resultArea.textContent = "error: " + error.message;
           }
         });
       </script>

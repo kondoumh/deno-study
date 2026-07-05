@@ -1,5 +1,13 @@
 {
+  "tasks": {
+    "dev": "deno desktop --hmr --allow-read --allow-env --allow-sys --include icons main.ts",
+    "build": "deno desktop --allow-read --allow-env --allow-sys --include icons main.ts",
+    "build:all": "deno desktop -A --include icnos main.ts"
+  },
   "desktop": {
-    "backend": "cef"
+    "backend": "cef",
+    "app": {
+      "name": "My Deno Desktop App",
+    }
   }
 }
